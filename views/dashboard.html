@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sama Lite | Dashboard</title>
+    <link rel="icon" href="/sama_logo.ico" type="image/x-icon">
+    <meta name="description" content="Sama Lite is a lightweight project management tool designed to help you manage your projects and tasks efficiently.">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header>
+        <h1>Sama Lite</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/projects">Projects</a>
+            <a href="/tasks">Tasks</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="stats">
+            <div class="stat-card">
+                <p><%= projectCount %></p>
+                <h3>Projects</h3>
+            </div>
+            <div class="stat-card">
+                <p><%= taskCount %></p>
+                <h3>Total Tasks</h3>
+            </div>
+            <div class="stat-card">
+                <p><%= completedCount %></p>
+                <h3>Completed</h3>
+            </div>
+        </div>
+
+        <div class="recent-tasks">
+            <h2>Recent Tasks</h2>
+            <ul id="task-list">
+                <% tasks.slice(0, 5).forEach(task => { %>
+                    <li>
+                        <span class="task-title"><%= task.title %></span>
+                        <span class="task-status <%= task.status.toLowerCase().replace(' ', '-') %>">
+                            <%= task.status %>
+                        </span>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    </main>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

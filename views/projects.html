@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/sama_logo.ico" type="image/x-icon">
+    <title>Sama Lite | Projects</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header>
+        <h1>Projects</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/projects">Projects</a>
+            <a href="/tasks">Tasks</a>
+        </nav>
+    </header>
+
+    <main>
+        <button id="new-project-btn">+ New Project</button>
+
+        <div class="projects-grid">
+            <% projects.forEach(project => { %>
+                <div class="project-card">
+                    <h3><%= project.name %></h3>
+                    <p><%= project.description %></p>
+                    <p class="deadline">Due: <%= project.deadline %></p>
+                    <a href="/tasks?projectId=<%= project.id %>" class="view-tasks">View Tasks</a>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Project Modal -->
+        <div id="project-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>New Project</h2>
+                <form id="project-form">
+                    <input type="text" id="project-name" placeholder="Project Name" required>
+                    <textarea id="project-desc" placeholder="Description"></textarea>
+                    <input type="date" id="project-deadline" required>
+                    <button type="submit">Create Project</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

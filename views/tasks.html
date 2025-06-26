@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/sama_logo.ico" type="image/x-icon">
+    <title>Sama Lite | Tasks</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header>
+        <h1>Tasks</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/projects">Projects</a>
+            <a href="/tasks">Tasks</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="task-controls">
+            <form action="/filter-tasks" method="GET">
+                <select id="project-filter" name="projectId" onchange="this.form.submit()">
+                    <option value="">All Projects</option>
+                    <% projects.forEach(project => { %>
+                        <option value="<%= project.id %>" 
+                            <%= selectedProjectId == project.id ? 'selected' : '' %>>
+                            <%= project.name %>
+                        </option>
+                    <% }); %>
+                </select>
+            </form>
+            <button id="new-task-btn">+ New Task</button>
+        </div>
+
+        <table id="tasks-table">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% tasks.forEach(task => { 
+                    const project = projects.find(p => p.id == task.projectId); %>
+                    <tr data-task-id="<%= task.id %>">
+                        <td><%= task.title %></td>
+                        <td><%= project ? project.name : '' %></td>
+                        <td class="status <%= task.status.toLowerCase().replace(' ', '-') %>">
+                            <%= task.status %>
+                        </td>
+                        <td class="priority <%= task.priority.toLowerCase() %>">
+                            <%= task.priority %>
+                        </td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <!-- Task Comments Section -->
+        <div class="task-comments-section">
+            <h3>Task Comments</h3>
+            <div class="comments-container" id="task-comments-container">
+                <p>Select a task to view comments</p>
+            </div>
+            <form id="task-comment-form">
+                <input type="hidden" id="comment-task-id">
+                <textarea id="task-comment-text" placeholder="Add your comment..." required></textarea>
+                <button type="submit">Post Comment</button>
+            </form>
+        </div>
+
+        <!-- Task Modal -->
+        <div id="task-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-title">New Task</h2>
+                <form id="task-form">
+                    <input type="text" id="task-title" placeholder="Task Title" required>
+                    <select id="task-project" required>
+                        <option value="">Select Project</option>
+                        <% projects.forEach(project => { %>
+                            <option value="<%= project.id %>"><%= project.name %></option>
+                        <% }); %>
+                    </select>
+                    <select id="task-status" required>
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <select id="task-priority" required>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <button type="submit">Save Task</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
